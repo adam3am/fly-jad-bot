@@ -16,7 +16,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -38,7 +38,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -60,7 +60,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -82,7 +82,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -104,7 +104,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -126,7 +126,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -148,7 +148,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -170,7 +170,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -192,7 +192,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -214,7 +214,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -236,7 +236,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -258,7 +258,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -280,7 +280,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -302,7 +302,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -324,7 +324,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -346,7 +346,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -368,7 +368,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
@@ -390,7 +390,7 @@ probes:
           key: ${key}
           poli_id: ${poli_id}
           user_nm: ${user_nm}
-        timeout: 280000
+        timeout: 200000
         method: POST
     incidentThreshold: 6
     recoveryThreshold: 3
