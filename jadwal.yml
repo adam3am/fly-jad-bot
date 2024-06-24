@@ -1,0 +1,403 @@
+notifications:
+  - id: f640e30c-e3f4-4e4f-b2ea-db7b8a080c1d
+    type: google-chat
+    data:
+      url: >-
+        https://chat.googleapis.com/v1/spaces/${spaces}/messages?key=${messages_key}
+probes:
+  - id: senin-1
+    name: senin-pertama
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-01"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *senin 1 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: senin-2
+    name: senin-kedua
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-08"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *senin 8 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: senin-3
+    name: senin-ketiga
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-15"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *senin 15 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: senin-4
+    name: senin-keempat
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-22"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *senin 22 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: senin-5
+    name: senin-kelima
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-29"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *senin 29 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: senin-6
+    name: senin-keenam
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-06-24"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *senin 24 juni*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: selasa-1
+    name: selasa-pertama
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-02"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 2 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: selasa-2
+    name: selasa-kedua
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-09"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 9 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: selasa-3
+    name: selasa-ketiga
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-16"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 16 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: selasa-4
+    name: selasa-keempat
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-23"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 23 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: selasa-5
+    name: selasa-kelima
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-30"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 30 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: selasa-6
+    name: selasa-keenam
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-06-25"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 25 juni*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: rabu-1
+    name: rabu-pertama
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-03"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 3 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: rabu-2
+    name: rabu-kedua
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-10"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 10 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: rabu-3
+    name: rabu-ketiga
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-17"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 17 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: rabu-4
+    name: rabu-keempat
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-24"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 24 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: rabu-5
+    name: rabu-kelima
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-07-31"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 31 juli*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: rabu-6
+    name: rabu-keenam
+    interval: 12
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-06-26"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 280000
+        method: POST
+    incidentThreshold: 6
+    recoveryThreshold: 3
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 26 juni*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
