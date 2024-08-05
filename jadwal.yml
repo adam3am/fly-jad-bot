@@ -116,27 +116,6 @@ probes:
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
 
-    name: senin-keenam
-    interval: 12
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-06-24"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 6
-    recoveryThreshold: 3
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *senin 24 juni*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
   - id: selasa-1
     name: selasa-pertama
     interval: 12
@@ -226,27 +205,6 @@ probes:
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
 
-    name: selasa-keenam
-    interval: 12
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-06-25"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 6
-    recoveryThreshold: 3
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *selasa 25 juni*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
   - id: rabu-1
     name: rabu-pertama
     interval: 12
