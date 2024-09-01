@@ -33,7 +33,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-12"
+          appointment_date: "2024-09-09"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -45,7 +45,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *senin 12 agustus*
+          *senin 9 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -55,7 +55,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-19"
+          appointment_date: "2024-09-16"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -67,7 +67,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *senin 19 agustus*
+          *senin 16 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -77,7 +77,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-26"
+          appointment_date: "2024-09-23"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -89,7 +89,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *senin 26 agustus*
+          *senin 23 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -122,7 +122,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-06"
+          appointment_date: "2024-09-03"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -134,7 +134,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *selasa 6 agustus*
+          *selasa 3 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -144,7 +144,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-13"
+          appointment_date: "2024-09-10"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -156,7 +156,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *selasa 13 agustus*
+          *selasa 10 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -166,7 +166,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-20"
+          appointment_date: "2024-09-17"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -178,7 +178,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *selasa 20 agustus*
+          *selasa 17 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -188,7 +188,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-27"
+          appointment_date: "2024-09-24"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -200,7 +200,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *selasa 27 agustus*
+          *selasa 24 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -211,7 +211,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-07"
+          appointment_date: "2024-09-04"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -223,7 +223,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *rabu 7 agustus*
+          *rabu 4 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -233,7 +233,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-14"
+          appointment_date: "2024-09-11"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -245,7 +245,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *rabu 14 agustus*
+          *rabu 11 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -255,7 +255,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-21"
+          appointment_date: "2024-09-18"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -267,7 +267,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *rabu 21 agustus*
+          *rabu 18 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
@@ -277,7 +277,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-08-28"
+          appointment_date: "2024-09-25"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -289,7 +289,7 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *rabu 28 agustus*
+          *rabu 25 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
