@@ -7,7 +7,7 @@ notifications:
 probes:
   - id: senin-1
     name: senin-pertama
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -29,7 +29,7 @@ probes:
           {{/each}}
   - id: senin-2
     name: senin-kedua
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -51,7 +51,7 @@ probes:
           {{/each}}
   - id: senin-3
     name: senin-ketiga
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -73,7 +73,7 @@ probes:
           {{/each}}
   - id: senin-4
     name: senin-keempat
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -95,7 +95,7 @@ probes:
           {{/each}}
   - id: senin-5
     name: senin-kelima
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -118,7 +118,7 @@ probes:
 
   - id: selasa-1
     name: selasa-pertama
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -140,7 +140,7 @@ probes:
           {{/each}}
   - id: selasa-2
     name: selasa-kedua
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -162,7 +162,7 @@ probes:
           {{/each}}
   - id: selasa-3
     name: selasa-ketiga
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -184,7 +184,7 @@ probes:
           {{/each}}
   - id: selasa-4
     name: selasa-keempat
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -207,7 +207,7 @@ probes:
 
   - id: rabu-1
     name: rabu-pertama
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -229,7 +229,7 @@ probes:
           {{/each}}
   - id: rabu-2
     name: rabu-kedua
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -251,7 +251,7 @@ probes:
           {{/each}}
   - id: rabu-3
     name: rabu-ketiga
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
@@ -273,7 +273,7 @@ probes:
           {{/each}}
   - id: rabu-4
     name: rabu-keempat
-    interval: 12
+    interval: 18
     requests:
       - url: https://${url}
         body:
