@@ -5,7 +5,7 @@ notifications:
       url: >-
         https://chat.googleapis.com/v1/spaces/${spaces}/messages?key=${messages_key}
 probes:
-  - id: senin-1
+/*  - id: senin-1
     name: senin-pertama
     interval: 18
     requests:
@@ -26,8 +26,8 @@ probes:
           *senin 2 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: senin-2
+          {{/each}} */
+/*  - id: senin-2
     name: senin-kedua
     interval: 18
     requests:
@@ -48,7 +48,7 @@ probes:
           *senin 9 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
+          {{/each}} */
   - id: senin-3
     name: senin-ketiga
     interval: 18
@@ -116,7 +116,7 @@ probes:
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
 
-  - id: selasa-1
+/*  - id: selasa-1
     name: selasa-pertama
     interval: 18
     requests:
@@ -137,7 +137,7 @@ probes:
           *selasa 3 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
+          {{/each}} */
   - id: selasa-2
     name: selasa-kedua
     interval: 18
@@ -205,7 +205,7 @@ probes:
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
 
-  - id: rabu-1
+/*  - id: rabu-1
     name: rabu-pertama
     interval: 18
     requests:
@@ -226,7 +226,7 @@ probes:
           *rabu 4 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
+          {{/each}} */
   - id: rabu-2
     name: rabu-kedua
     interval: 18
