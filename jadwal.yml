@@ -5,50 +5,50 @@ notifications:
       url: >-
         https://chat.googleapis.com/v1/spaces/${spaces}/messages?key=${messages_key}
 probes:
-  - id: senin-1
-    name: senin-pertama
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-09-02"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 6
-    recoveryThreshold: 3
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *senin 2 september*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: senin-2
-    name: senin-kedua
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-09-09"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 6
-    recoveryThreshold: 3
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *senin 9 september*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
+#  - id: senin-1
+#    name: senin-pertama
+#    interval: 18
+#    requests:
+#      - url: https://${url}
+#        body:
+#          appointment_date: "2024-09-02"
+#          fungsi: ${fungsi}
+#          key: ${key}
+#          poli_id: ${poli_id}
+#          user_nm: ${user_nm}
+#        timeout: 200000
+#        method: POST
+#    incidentThreshold: 6
+#    recoveryThreshold: 3
+#    alerts:
+#      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+#        message: |
+#          *senin 2 september*
+#          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+#          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+#          {{/each}}
+#  - id: senin-2
+#    name: senin-kedua
+#    interval: 18
+#    requests:
+#      - url: https://${url}
+#        body:
+#          appointment_date: "2024-09-09"
+#          fungsi: ${fungsi}
+#          key: ${key}
+#          poli_id: ${poli_id}
+#          user_nm: ${user_nm}
+#        timeout: 200000
+#        method: POST
+#    incidentThreshold: 6
+#    recoveryThreshold: 3
+#    alerts:
+#      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+#        message: |
+#          *senin 9 september*
+#          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+#          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+#          {{/each}}
   - id: senin-3
     name: senin-ketiga
     interval: 18
@@ -116,28 +116,28 @@ probes:
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
 
-  - id: selasa-1
-    name: selasa-pertama
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-09-03"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 6
-    recoveryThreshold: 3
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *selasa 3 september*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
+#  - id: selasa-1
+#    name: selasa-pertama
+#    interval: 18
+#    requests:
+#      - url: https://${url}
+#        body:
+#          appointment_date: "2024-09-03"
+#          fungsi: ${fungsi}
+#          key: ${key}
+#          poli_id: ${poli_id}
+#          user_nm: ${user_nm}
+#        timeout: 200000
+#        method: POST
+#    incidentThreshold: 6
+#    recoveryThreshold: 3
+#    alerts:
+#      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+#        message: |
+#          *selasa 3 september*
+#          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+#          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+#          {{/each}}
   - id: selasa-2
     name: selasa-kedua
     interval: 18
@@ -205,28 +205,28 @@ probes:
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
 
-  - id: rabu-1
-    name: rabu-pertama
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-09-04"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 6
-    recoveryThreshold: 3
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *rabu 4 september*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
+#  - id: rabu-1
+#    name: rabu-pertama
+#    interval: 18
+#    requests:
+#      - url: https://${url}
+#        body:
+#          appointment_date: "2024-09-04"
+#          fungsi: ${fungsi}
+#          key: ${key}
+#          poli_id: ${poli_id}
+#          user_nm: ${user_nm}
+#        timeout: 200000
+#        method: POST
+#    incidentThreshold: 6
+#    recoveryThreshold: 3
+#    alerts:
+#      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+#        message: |
+#          *rabu 4 september*
+#          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+#          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+#          {{/each}}
   - id: rabu-2
     name: rabu-kedua
     interval: 18
