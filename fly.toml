@@ -1,4 +1,4 @@
-app = "jad-bot"
+app = "fly-jad-bot"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 primary_region = "sin"

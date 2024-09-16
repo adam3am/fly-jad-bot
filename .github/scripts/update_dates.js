@@ -86,6 +86,8 @@ async function updateDates(filePath) {
   sixMonthsFromNow.setMonth(currentDate.getMonth() + 6)
   const holidays = await fetchHolidays()
 
+  console.log('Fetched holidays:', holidays)
+
   // First pass: collect all currently used dates
   data.probes.forEach((probe) => {
     if (probe.id.startsWith('jadwal-')) {
@@ -94,30 +96,45 @@ async function updateDates(filePath) {
     }
   })
 
+  console.log('Initially used dates:', usedDates)
+
   // Second pass: update dates and handle duplicates
   data.probes.forEach((probe) => {
     if (probe.id.startsWith('jadwal-')) {
       let appointmentDate = new Date(probe.requests[0].body.appointment_date)
       let newDate = appointmentDate.toISOString().split('T')[0]
 
-      if (
-        appointmentDate > sixMonthsFromNow ||
-        usedDates.has(appointmentDate.toISOString().split('T')[0])
-      ) {
+      console.log(`Processing ${probe.id}, initial date: ${newDate}`)
+
+      while (usedDates.has(newDate) || appointmentDate > sixMonthsFromNow || isHoliday(appointmentDate, holidays)) {
+        if (usedDates.has(newDate)) {
+          console.log(`${newDate} is already used, finding next available date`)
+        }
+        if (appointmentDate > sixMonthsFromNow) {
+          console.log(`${newDate} is more than six months from now, finding earlier date`)
+        }
+        if (isHoliday(appointmentDate, holidays)) {
+          console.log(`${newDate} is a holiday (${holidays[newDate]}), finding next available date`)
+        }
+
         newDate = getNextAvailableDate(
-          currentDate.toISOString().split('T')[0],
+          new Date(newDate).toISOString().split('T')[0],
           holidays,
           usedDates
         )
+        appointmentDate = new Date(newDate)
+        console.log(`Next available date found: ${newDate}`)
+      }
+
+      if (newDate !== probe.requests[0].body.appointment_date) {
         content = updateProbeDate(probe, newDate, content)
         hasChanges = true
         console.log(
           `Updated ${probe.id} from ${probe.requests[0].body.appointment_date} to ${newDate}`
         )
-
-        usedDates.delete(appointmentDate.toISOString().split('T')[0])
-        usedDates.add(newDate)
       }
+
+      usedDates.add(newDate)
 
       if (probe.alerts) {
         const dateObj = new Date(newDate)
