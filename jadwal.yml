@@ -11,6 +11,226 @@ probes:
     requests:
       - url: https://${url}
         body:
+          appointment_date: "2024-09-17"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 17 september*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-2
+    name: jadwal-kedua
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-09-18"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 18 september*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-3
+    name: jadwal-ketiga
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-09-23"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *senin 23 september*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-4
+    name: jadwal-keempat
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-09-24"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 24 september*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-5
+    name: jadwal-kelima
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-09-25"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 25 september*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-6
+    name: jadwal-keenam
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-09-30"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *senin 30 september*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-7
+    name: jadwal-ketujuh
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-10-01"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 1 oktober*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-8
+    name: jadwal-kedelapan
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-10-02"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 2 oktober*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-9
+    name: jadwal-kesembilan
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-10-07"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *senin 7 oktober*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-10
+    name: jadwal-kesepuluh
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-10-08"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *selasa 8 oktober*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-11
+    name: jadwal-kesebelas
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
           appointment_date: "2024-10-09"
           fungsi: ${fungsi}
           key: ${key}
@@ -27,8 +247,8 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-2
-    name: jadwal-kedua
+  - id: jadwal-12
+    name: jadwal-keduabelas
     interval: 18
     requests:
       - url: https://${url}
@@ -46,226 +266,6 @@ probes:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
           *senin 14 oktober*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-3
-    name: jadwal-ketiga
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-10-15"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *selasa 15 oktober*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-4
-    name: jadwal-keempat
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-10-16"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *rabu 16 oktober*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-5
-    name: jadwal-kelima
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-10-21"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *senin 21 oktober*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-6
-    name: jadwal-keenam
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-10-22"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *selasa 22 oktober*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-7
-    name: jadwal-ketujuh
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-10-23"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *rabu 23 oktober*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-8
-    name: jadwal-kedelapan
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-10-28"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *senin 28 oktober*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-9
-    name: jadwal-kesembilan
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-10-29"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *selasa 29 oktober*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-10
-    name: jadwal-kesepuluh
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-10-30"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *rabu 30 oktober*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-11
-    name: jadwal-kesebelas
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-11-04"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *senin 4 november*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-12
-    name: jadwal-keduabelas
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-11-05"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *selasa 5 november*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
