@@ -1,11 +1,34 @@
-app = 'jad-bot'
-primary_region = 'sin'
+app = "jad-bot"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+primary_region = "sin"
+swap_size_mb = 512
 
-[build]
+[env]
+PORT = "41641"
+# create a reusable auth key and set it:
+# flyctl secrets set TAILSCALE_AUTH_KEY=tskey-...
+# ephemeral keys are hardly working for use as exit node as they are ipv6 only
 
-[http_service]
-  internal_port = 8080
-  force_https = true
-  auto_stop_machines = false
-  auto_start_machines = true
-  min_machines_running = 1
+[experimental]
+  auto_rollback = false
+  private_network = true
+
+[vm]
+  memory = "256mb"
+
+[[services]]
+internal_port = 41641
+auto_stop_machines = false
+auto_start_machines = true
+min_machines_running = 1
+processes = ["app"]
+protocol = "udp"
+
+[[services.ports]]
+port = 41641
+
+[services.concurrency]
+hard_limit = 100
+soft_limit = 75
+type = "connections"

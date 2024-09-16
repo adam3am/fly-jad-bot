@@ -1,0 +1,5 @@
+Tailwings
+=========
+
+This image runs a squid http proxy on 3214 and dante socks5 on 3215
+

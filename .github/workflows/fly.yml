@@ -1,16 +1,119 @@
 name: Fly Deploy
 on:
-  push:
+  workflow_run:
+    workflows: ["update to the next jad"]
+    types:
+      - completed
     branches:
       - main
+
 jobs:
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v3
+      - name: Install envsubst
+        run: sudo apt-get install -y gettext-base
+
+      - name: Log original jadwal.yml content
+        run: |
+          echo "Original jadwal.yml content:"
+          cat jadwal.yml
+
+      - name: Substitute environment variables
+        run: |
+          envsubst < jadwal.yml > jadwal_processed.yml
+        env:
+          user_nm: ${{ secrets.user_nm }}
+          url: ${{ secrets.url }}
+          time: ${{ secrets.time }}
+          spaces: ${{ secrets.spaces }}
+          quota: ${{ secrets.quota }}
+          poli_id: ${{ secrets.poli_id }}
+          messages_key: ${{ secrets.messages_key }}
+          key: ${{ secrets.key }}
+          fungsi: ${{ secrets.fungsi }}
+          else: ${{ secrets.else }}
+
+      - name: Log processed jadwal.yml content
+        run: |
+          echo "Processed jadwal.yml content:"
+          cat jadwal_processed.yml
+
+      - name: Compare original and processed files
+        run: |
+          if diff jadwal.yml jadwal_processed.yml; then
+            echo "No changes were made to jadwal.yml"
+          else
+            echo "Changes were made to jadwal.yml"
+            diff jadwal.yml jadwal_processed.yml || true
+          fi
+
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --ha=false && flyctl scale count 1 -y
+      
+      - name: Get machine ID
+        id: get_machine_id
+        run: |
+          MACHINE_ID=$(flyctl machines list --json | jq -r '.[0].id // empty')
+          echo "MACHINE_ID=$MACHINE_ID" >> $GITHUB_OUTPUT
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Destroy existing machine
+        if: steps.get_machine_id.outputs.MACHINE_ID != ''
+        run: |
+          if [ -n "${{ steps.get_machine_id.outputs.MACHINE_ID }}" ]; then
+            echo "Destroying existing machine: ${{ steps.get_machine_id.outputs.MACHINE_ID }}"
+            flyctl machine destroy ${{ steps.get_machine_id.outputs.MACHINE_ID }} --force || echo "No machine to destroy or destruction failed. Continuing with deployment."
+          else
+            echo "No existing machine found. Proceeding with deployment."
+          fi
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Deploy to Fly.io
+        run: |
+          cp jadwal_processed.yml jadwal.yml
+          echo "Final jadwal.yml content:"
+          cat jadwal.yml
+          
+          # Get the organization slug
+          FLY_ORG=$(flyctl orgs list --json | jq -r 'keys[0]')
+          if [ -z "$FLY_ORG" ]; then
+            echo "Error: Unable to determine organization slug"
+            exit 1
+          fi
+          echo "Organization slug: $FLY_ORG"
+
+          # Check if the app exists, if not create it
+          if ! flyctl apps list --org="$FLY_ORG" | grep -q "fly-jad-bot"; then
+            echo "App does not exist. Creating..."
+            flyctl apps create fly-jad-bot --org="$FLY_ORG"
+          else
+            echo "App already exists."
+          fi
+
+          # Check if shared IPv4 exists, if not allocate one
+          if ! flyctl ips list | grep -q "v4"; then
+            echo "Shared IPv4 does not exist. Allocating..."
+            flyctl ips allocate-v4 --shared
+          else
+            echo "Shared IPv4 already exists."
+          fi
+
+          # Check if IPv6 exists, if not allocate one
+          if ! flyctl ips list | grep -q "v6"; then
+            echo "IPv6 does not exist. Allocating..."
+            flyctl ips allocate-v6
+          else
+            echo "IPv6 already exists."
+          fi
+          
+          # Deploy with TAILSCALE_AUTH_KEY as a build argument
+          flyctl deploy --ha=false --build-arg TAILSCALE_AUTH_KEY="${TAILSCALE_AUTH_KEY}" && flyctl scale count 1 -y
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          TAILSCALE_AUTH_KEY: ${{ secrets.TAILSCALE_AUTH_KEY }}
           FLY_REGION: sin

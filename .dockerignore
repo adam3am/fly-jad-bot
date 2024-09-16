@@ -1,4 +1,3 @@
-# flyctl launch added from .gitignore
-**/.DS_Store
-**/.tool-versions
-fly.toml
+images/
+.github/
+README.md

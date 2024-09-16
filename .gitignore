@@ -1,2 +1,9 @@
 .DS_Store
+.python-version
+.node-version
 .tool-versions
+ignore.yml
+monika-logs.db
+package-lock.json
+package.json
+.env

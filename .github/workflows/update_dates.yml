@@ -1,0 +1,44 @@
+name: update to the next jad
+
+on:
+  schedule:
+    - cron: '0 8 * * 3'  # Run every Rabu at 15:00 (08:00 UTC)
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  update-dates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install js-yaml axios
+
+      - name: Update dates
+        id: update
+        run: |
+          if node .github/scripts/update_dates.js; then
+            echo "::set-output name=changes::true"
+          else
+            echo "::set-output name=changes::false"
+          fi
+        env:
+          HOLIDAY_API_URL: ${{ secrets.HOLIDAY_API_URL }}
+
+      - name: Commit and push if changed
+        if: steps.update.outputs.changes == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add jadwal.yml
+          git commit -m "update to the next jad"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
