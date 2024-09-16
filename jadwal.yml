@@ -11,7 +11,7 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-09-16"
+          appointment_date: "2024-10-01"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -23,12 +23,34 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *senin 16 september*
+          *selasa 1 oktober*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
   - id: jadwal-2
     name: jadwal-kedua
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2024-10-02"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 2 oktober*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-3
+    name: jadwal-ketiga
     interval: 18
     requests:
       - url: https://${url}
@@ -49,8 +71,8 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-3
-    name: jadwal-ketiga
+  - id: jadwal-4
+    name: jadwal-keempat
     interval: 18
     requests:
       - url: https://${url}
@@ -71,13 +93,13 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-4
-    name: jadwal-keempat
+  - id: jadwal-5
+    name: jadwal-kelima
     interval: 18
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-09-10"
+          appointment_date: "2024-10-07"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -89,12 +111,12 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *selasa 10 september*
+          *senin 7 oktober*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-5
-    name: jadwal-kelima
+  - id: jadwal-6
+    name: jadwal-keenam
     interval: 18
     requests:
       - url: https://${url}
@@ -115,8 +137,8 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-6
-    name: jadwal-keenam
+  - id: jadwal-7
+    name: jadwal-ketujuh
     interval: 18
     requests:
       - url: https://${url}
@@ -137,13 +159,13 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-7
-    name: jadwal-ketujuh
+  - id: jadwal-8
+    name: jadwal-kedelapan
     interval: 18
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2024-09-11"
+          appointment_date: "2024-10-08"
           fungsi: ${fungsi}
           key: ${key}
           poli_id: ${poli_id}
@@ -155,12 +177,12 @@ probes:
     alerts:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
-          *rabu 11 september*
+          *selasa 8 oktober*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-8
-    name: jadwal-kedelapan
+  - id: jadwal-9
+    name: jadwal-kesembilan
     interval: 18
     requests:
       - url: https://${url}
@@ -178,28 +200,6 @@ probes:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
           *rabu 18 september*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-9
-    name: jadwal-kesembilan
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
-          appointment_date: "2024-09-25"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *rabu 25 september*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
