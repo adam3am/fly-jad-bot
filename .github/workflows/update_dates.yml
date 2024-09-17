@@ -33,13 +33,17 @@ jobs:
           HOLIDAY_API_URL: ${{ secrets.HOLIDAY_API_URL }}
 
       - name: Commit and push if changed
-        if: steps.update.outputs.changes == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add jadwal.yml
-          git add package-lock.json
-          git commit -m "update to the next jad"
-          git push
+          git add jadwal.yml package-lock.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "update to the next jad" && git push)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger Fly Deploy workflow
+        if: success()
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: trigger-fly-deploy

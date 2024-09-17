@@ -4,14 +4,14 @@ on:
     workflows: ["update to the next jad"]
     types:
       - completed
-    branches:
-      - main
+  repository_dispatch:
+    types: [trigger-fly-deploy]
 
 jobs:
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'repository_dispatch' }}
     steps:
       - uses: actions/checkout@v3
       - name: Install envsubst
