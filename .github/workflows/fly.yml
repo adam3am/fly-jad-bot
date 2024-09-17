@@ -51,27 +51,38 @@ jobs:
             diff jadwal.yml jadwal_processed.yml || true
           fi
 
+      - name: Check for Tailscale update
+        id: check_tailscale
+        run: |
+          LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+          if [[ "$LAST_COMMIT_AUTHOR" == "GitHub Action: auto update tailscale" && "$CHANGED_FILES" == *"Dockerfile"* ]]; then
+            echo "TAILSCALE_UPDATED=true" >> $GITHUB_OUTPUT
+          else
+            echo "TAILSCALE_UPDATED=false" >> $GITHUB_OUTPUT
+          fi
+
       - uses: superfly/flyctl-actions/setup-flyctl@master
       
-      - name: Get machine ID
-        id: get_machine_id
-        run: |
-          MACHINE_ID=$(flyctl machines list --json | jq -r '.[0].id // empty')
-          echo "MACHINE_ID=$MACHINE_ID" >> $GITHUB_OUTPUT
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      # - name: Get machine ID
+      #   id: get_machine_id
+      #   run: |
+      #     MACHINE_ID=$(flyctl machines list --json | jq -r '.[0].id // empty')
+      #     echo "MACHINE_ID=$MACHINE_ID" >> $GITHUB_OUTPUT
+      #   env:
+      #     FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
-      - name: Destroy existing machine
-        if: steps.get_machine_id.outputs.MACHINE_ID != ''
-        run: |
-          if [ -n "${{ steps.get_machine_id.outputs.MACHINE_ID }}" ]; then
-            echo "Destroying existing machine: ${{ steps.get_machine_id.outputs.MACHINE_ID }}"
-            flyctl machine destroy ${{ steps.get_machine_id.outputs.MACHINE_ID }} --force || echo "No machine to destroy or destruction failed. Continuing with deployment."
-          else
-            echo "No existing machine found. Proceeding with deployment."
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      # - name: Destroy existing machine
+      #   if: steps.get_machine_id.outputs.MACHINE_ID != ''
+      #   run: |
+      #     if [ -n "${{ steps.get_machine_id.outputs.MACHINE_ID }}" ]; then
+      #       echo "Destroying existing machine: ${{ steps.get_machine_id.outputs.MACHINE_ID }}"
+      #       flyctl machine destroy ${{ steps.get_machine_id.outputs.MACHINE_ID }} --force || echo "No machine to destroy or destruction failed. Continuing with deployment."
+      #     else
+      #       echo "No existing machine found. Proceeding with deployment."
+      #     fi
+      #   env:
+      #     FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: Deploy to Fly.io
         run: |
@@ -117,3 +128,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           TAILSCALE_AUTH_KEY: ${{ secrets.TAILSCALE_AUTH_KEY }}
           FLY_REGION: sin
+
+      - name: Notify Tailscale update
+        if: steps.check_tailscale.outputs.TAILSCALE_UPDATED == 'true'
+        run: echo "Tailscale version was updated in this deployment."

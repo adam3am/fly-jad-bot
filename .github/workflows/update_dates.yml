@@ -2,7 +2,7 @@ name: update to the next jad
 
 on:
   schedule:
-    - cron: '30 7 * * 3'  # Run every Rabu at 14:30 (07:30 UTC)
+    - cron: '35 7 * * 1,2,3'  # Run every Senin, Selasa, Rabu at 14:35 WIB (07:35 UTC)
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
