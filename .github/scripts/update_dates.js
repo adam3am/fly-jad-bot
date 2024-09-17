@@ -2,6 +2,7 @@ const fs = require('fs')
 const yaml = require('js-yaml')
 const axios = require('axios')
 const env = require('dotenv')
+const moment = require('moment-timezone')
 
 env.config()
 
@@ -36,31 +37,30 @@ async function fetchHolidays() {
 }
 
 function isHoliday(date, holidays) {
-  return date.toISOString().split('T')[0] in holidays
+  return date.format('YYYY-MM-DD') in holidays
 }
 
 function getNextAvailableDate(startDate, holidays, usedDates) {
-  const date = new Date(startDate)
-  const sixMonthsFromNow = new Date(date)
-  sixMonthsFromNow.setMonth(date.getMonth() + 6)
+  let date = moment(startDate)
+  const sixMonthsFromNow = date.clone().add(6, 'months')
 
-  while (date <= sixMonthsFromNow) {
-    const dateString = date.toISOString().split('T')[0]
+  while (date.isSameOrBefore(sixMonthsFromNow)) {
+    const dateString = date.format('YYYY-MM-DD')
     if (
-      VALID_DAYS.includes(VALID_DAYS[date.getDay() - 1]) &&
+      VALID_DAYS.includes(VALID_DAYS[date.day() - 1]) &&
       !isHoliday(date, holidays) &&
       !usedDates.has(dateString)
     ) {
       return dateString
     }
-    date.setDate(date.getDate() + 1)
+    date.add(1, 'day')
   }
 
-  return startDate
+  return startDate.format('YYYY-MM-DD')
 }
 
 function formatDate(dateObj) {
-  return `${VALID_DAYS[dateObj.getDay() - 1]} ${dateObj.getDate()} ${MONTHS[dateObj.getMonth()]}`
+  return `${VALID_DAYS[dateObj.day() - 1]} ${dateObj.date()} ${MONTHS[dateObj.month()]}`
 }
 
 function updateProbeDate(probe, newDate, content) {
@@ -85,48 +85,44 @@ async function updateDates(filePath) {
   let hasChanges = false
   const usedDates = new Set()
 
-  // Get current date and time in WIB (UTC+7)
-  const currentDateTime = new Date(
-    new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta' })
-  )
-  const currentHour = currentDateTime.getHours()
-  const currentMinutes = currentDateTime.getMinutes()
+  // Get current date and time in UTC
+  const currentDateTimeUTC = moment.utc()
+  
+  // Convert UTC to WIB
+  const currentDateTimeWIB = currentDateTimeUTC.clone().tz('Asia/Jakarta')
+  const currentHour = currentDateTimeWIB.hour()
+  const currentMinutes = currentDateTimeWIB.minute()
 
-  // Create a new date object for the starting date
-  let startDate = new Date(currentDateTime)
+  // Create a new date object for the starting date (in WIB)
+  let startDate = currentDateTimeWIB.clone()
 
-  // If it's past 14:30 WIB, start from tomorrow
-  if (currentHour > 14 || (currentHour === 14 && currentMinutes >= 30)) {
-    startDate.setDate(startDate.getDate() + 1)
+  // If it's past 14:35 WIB, start from tomorrow
+  if (currentHour > 14 || (currentHour === 14 && currentMinutes >= 35)) {
+    startDate.add(1, 'day')
   }
 
   // Reset time to 00:00:00 for the starting date
-  startDate.setHours(0, 0, 0, 0)
+  startDate.startOf('day')
 
   // Ensure startDate is a valid day (Mon, Tue, Wed)
-  while (!VALID_DAYS.includes(VALID_DAYS[startDate.getDay() - 1])) {
-    startDate.setDate(startDate.getDate() + 1)
+  while (!VALID_DAYS.includes(VALID_DAYS[startDate.day() - 1])) {
+    startDate.add(1, 'day')
   }
 
-  const sixMonthsFromNow = new Date(startDate)
-  sixMonthsFromNow.setMonth(startDate.getMonth() + 6)
+  const sixMonthsFromNow = startDate.clone().add(6, 'months')
   const holidays = await fetchHolidays()
 
-  console.log(
-    `Current date and time (WIB): ${currentDateTime.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' })}`
-  )
-  console.log(
-    `Starting date for appointments (WIB): ${startDate.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }).split(',')[0]}`
-  )
+  console.log(`Current date and time (UTC): ${currentDateTimeUTC.format('YYYY-MM-DD HH:mm:ss')}`)
+  console.log(`Current date and time (WIB): ${currentDateTimeWIB.format('YYYY-MM-DD HH:mm:ss')}`)
+  console.log(`Starting date for appointments (WIB): ${startDate.format('YYYY-MM-DD')}`)
 
-  let nextAppointmentDate = new Date(startDate)
-  nextAppointmentDate.setDate(nextAppointmentDate.getDate() + 1); // Start from the next day
+  let nextAppointmentDate = startDate.clone() // Start from the current day
 
   // Update all probes
   data.probes.forEach((probe) => {
     if (probe.id.startsWith('jadwal-')) {
       let newDate = getNextAvailableDate(
-        nextAppointmentDate.toISOString().split('T')[0],
+        nextAppointmentDate,
         holidays,
         usedDates
       )
@@ -141,7 +137,7 @@ async function updateDates(filePath) {
       usedDates.add(newDate)
 
       if (probe.alerts) {
-        const dateObj = new Date(newDate)
+        const dateObj = moment(newDate)
         const correctDateText = formatDate(dateObj)
         content = updateAlertMessage(probe, correctDateText, content)
         console.log(
@@ -150,8 +146,7 @@ async function updateDates(filePath) {
       }
 
       // Move to the next day for the next probe
-      nextAppointmentDate = new Date(newDate)
-      nextAppointmentDate.setDate(nextAppointmentDate.getDate() + 1)
+      nextAppointmentDate = moment(newDate).add(1, 'day')
     }
   })
 
