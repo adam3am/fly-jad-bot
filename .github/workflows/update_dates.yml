@@ -19,7 +19,7 @@ jobs:
           node-version: '16'  # or '18' if you prefer a more recent version
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Update dates
         id: update
@@ -38,6 +38,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add jadwal.yml
+          git add package-lock.json
           git commit -m "update to the next jad"
           git push
         env:
