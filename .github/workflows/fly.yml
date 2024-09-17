@@ -64,26 +64,6 @@ jobs:
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
       
-      - name: Check and create Fly.io volume
-        run: |
-          # Get the organization slug
-          FLY_ORG=$(flyctl orgs list --json | jq -r 'keys[0]')
-          if [ -z "$FLY_ORG" ]; then
-            echo "Error: Unable to determine organization slug"
-            exit 1
-          fi
-          echo "Organization slug: $FLY_ORG"
-
-          # Check if the volume exists
-          if ! flyctl volumes list --app fly-jad-bot | grep -q "tailscale_data"; then
-            echo "Volume does not exist. Creating..."
-            flyctl volumes create tailscale_data --app fly-jad-bot --region sin --size 1
-          else
-            echo "Volume 'tailscale_data' already exists."
-          fi
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
       - name: Deploy to Fly.io
         run: |
           cp jadwal_processed.yml jadwal.yml
@@ -104,6 +84,14 @@ jobs:
             flyctl apps create fly-jad-bot --org="$FLY_ORG"
           else
             echo "App already exists."
+          fi
+
+          # Check and create Fly.io volume
+          if ! flyctl volumes list --app fly-jad-bot | grep -q "tailscale_data"; then
+            echo "Volume does not exist. Creating..."
+            flyctl volumes create tailscale_data --app fly-jad-bot --region sin --size 1
+          else
+            echo "Volume 'tailscale_data' already exists."
           fi
 
           # Check if shared IPv4 exists, if not allocate one
