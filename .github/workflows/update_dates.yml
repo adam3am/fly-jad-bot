@@ -19,15 +19,15 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: npm install js-yaml axios dotenv moment-timezone
+        run: npm ci
 
       - name: Update dates
         id: update
         run: |
           if node .github/scripts/update_dates.js; then
-            echo "::set-output name=changes::true"
+            echo "changes=true" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=changes::false"
+            echo "changes=false" >> $GITHUB_OUTPUT
           fi
         env:
           HOLIDAY_API_URL: ${{ secrets.HOLIDAY_API_URL }}

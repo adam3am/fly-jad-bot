@@ -2,6 +2,7 @@
 .python-version
 .node-version
 .tool-versions
+node_modules/
 ignore.yml
 monika-logs.db
 package-lock.json
