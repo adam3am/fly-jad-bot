@@ -20,12 +20,13 @@ sysctl -p /etc/sysctl.conf
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
-/app/tailscaled --verbose=1 --port 41641 --socks5-server=localhost:3215 --tun=userspace-networking &
+# Ensure the Tailscale state directory exists and has correct permissions
+mkdir -p /var/lib/tailscale
+chmod 700 /var/lib/tailscale
+
+# Start tailscaled with the statedir flag
+/app/tailscaled --verbose=1 --port 41641 --socks5-server=localhost:3215 --tun=userspace-networking --statedir=/var/lib/tailscale &
 sleep 5
-if [ ! -S /var/run/tailscale/tailscaled.sock ]; then
-    echo "tailscaled.sock does not exist. exit!"
-    exit 1
-fi
 
 until /app/tailscale up \
     --authkey=${TAILSCALE_AUTH_KEY} \

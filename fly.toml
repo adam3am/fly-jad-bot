@@ -17,6 +17,10 @@ PORT = "41641"
 [vm]
   memory = "256mb"
 
+[mounts]
+  source = "tailscale_data"
+  destination = "/var/lib/tailscale"
+
 [[services]]
 internal_port = 41641
 auto_stop_machines = false
