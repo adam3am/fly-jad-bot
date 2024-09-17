@@ -89,7 +89,7 @@ jobs:
           # Check and create Fly.io volume
           if ! flyctl volumes list --app fly-jad-bot | grep -q "tailscale_data"; then
             echo "Volume does not exist. Creating..."
-            flyctl volumes create tailscale_data --app fly-jad-bot --region sin --size 1
+            flyctl volumes create tailscale_data --app fly-jad-bot --region sin --size 1 -y
           else
             echo "Volume 'tailscale_data' already exists."
           fi
