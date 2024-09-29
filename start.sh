@@ -4,8 +4,12 @@ echo 'Starting up...'
 
 # Start jad-bot
 echo 'Starting jad-bot...'
-monika -c jadwal.yml --status-notification false &
-MONIKA_PID=$!
+while true; do
+    monika -c jadwal.yml --status-notification false
+    echo "jad-bot exited with status $?. Restarting in 5 seconds..."
+    sleep 5
+done &
+JAD_BOT_PID=$!
 echo 'jad-bot started'
 
 # Tailscale setup
@@ -54,7 +58,7 @@ mv /tmp/dummy_hallpass /.fly/hallpass
 echo 'Replaced /.fly/hallpass with dummy program'
 
 # Wait for jad-bot to finish
-wait $MONIKA_PID
+wait $JAD_BOT_PID
 
 # Keep the container running
 tail -f /dev/null

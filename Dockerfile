@@ -50,7 +50,7 @@ COPY sockd.conf /etc/sockd.conf
 COPY squid.conf /etc/squid/squid.conf
 COPY dnsmasq.conf /etc/dnsmasq.conf
 
-# Copy Monika configuration
+# Copy jad-bot configuration
 COPY jadwal.yml /usr/jadwal.yml
 
 WORKDIR /usr

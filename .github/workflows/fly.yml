@@ -64,6 +64,12 @@ jobs:
       
       - name: Deploy to Fly.io
         run: |
+          # Check if TAILSCALE_AUTH_KEY is set
+          if [ -z "$TAILSCALE_AUTH_KEY" ]; then
+            echo "Error: TAILSCALE_AUTH_KEY is not set. Please add it to your repository secrets."
+            exit 1
+          fi
+          
           cp jadwal_processed.yml jadwal.yml
           echo "Final jadwal.yml content:"
           cat jadwal.yml
@@ -84,12 +90,28 @@ jobs:
             echo "App already exists."
           fi
 
-          # Check and create Fly.io volume
-          if ! flyctl volumes list --app fly-jad-bot | grep -q "tailscale_data"; then
-            echo "Volume does not exist. Creating..."
+          # Check and manage Fly.io volumes
+          volumes=$(flyctl volumes list --app fly-jad-bot --json)
+          volume_count=$(echo "$volumes" | jq length)
+
+          if [ "$volume_count" -eq 0 ]; then
+            echo "No volumes exist. Creating 'tailscale_data'..."
             flyctl volumes create tailscale_data --app fly-jad-bot --region sin --size 1 -y
-          else
-            echo "Volume 'tailscale_data' already exists."
+            
+            # Check again after creation
+            volumes=$(flyctl volumes list --app fly-jad-bot --json)
+            volume_count=$(echo "$volumes" | jq length)
+          fi
+
+          if [ "$volume_count" -eq 1 ]; then
+            echo "One volume exists. This is correct."
+          elif [ "$volume_count" -gt 1 ]; then
+            echo "Multiple volumes found. Keeping the first and removing others..."
+            keep_id=$(echo "$volumes" | jq -r '.[0].id')
+            echo "$volumes" | jq -r '.[1:][].id' | while read -r volume_id; do
+              echo "Removing extra volume: $volume_id"
+              flyctl volumes destroy "$volume_id" --app fly-jad-bot
+            done
           fi
 
           # Check if shared IPv4 exists, if not allocate one
