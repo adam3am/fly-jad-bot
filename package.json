@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.1",
-    "dotenv": "^10.0.0",
     "js-yaml": "^4.1.0",
     "moment-timezone": "^0.5.33"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
   }
 }
