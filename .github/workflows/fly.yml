@@ -52,12 +52,19 @@ jobs:
       - name: Check for Tailscale update
         id: check_tailscale
         run: |
+          # Fetch the last two commits
+          git fetch --depth=2
+          
           LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
-          DOCKERFILE_DIFF=$(git diff HEAD^ HEAD -- Dockerfile | grep '^[+-]ARG TSVERSION=')
-          if [[ "$LAST_COMMIT_AUTHOR" == "GitHub Action: auto update tailscale" && -n "$DOCKERFILE_DIFF" ]]; then
-            echo "TAILSCALE_UPDATED=true" >> $GITHUB_OUTPUT
-            NEW_VERSION=$(echo "$DOCKERFILE_DIFF" | grep '^+ARG TSVERSION=' | cut -d'=' -f2)
-            echo "NEW_TAILSCALE_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
+          if [ "$LAST_COMMIT_AUTHOR" == "GitHub Action: auto update tailscale" ]; then
+            DOCKERFILE_DIFF=$(git diff HEAD~1 HEAD -- Dockerfile | grep '^[+-]ARG TSVERSION=')
+            if [ -n "$DOCKERFILE_DIFF" ]; then
+              echo "TAILSCALE_UPDATED=true" >> $GITHUB_OUTPUT
+              NEW_VERSION=$(echo "$DOCKERFILE_DIFF" | grep '^+ARG TSVERSION=' | cut -d'=' -f2)
+              echo "NEW_TAILSCALE_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
+            else
+              echo "TAILSCALE_UPDATED=false" >> $GITHUB_OUTPUT
+            fi
           else
             echo "TAILSCALE_UPDATED=false" >> $GITHUB_OUTPUT
           fi
