@@ -26,10 +26,7 @@ RUN apk update && \
     python3 \
     dnsmasq \
     jq \
-    nginx \
-    tzdata \
-    unbound \
-    bind-tools && \
+    tzdata && \
     cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
     echo "Asia/Jakarta" > /etc/timezone && \
     rm -rf /var/cache/apk/*
