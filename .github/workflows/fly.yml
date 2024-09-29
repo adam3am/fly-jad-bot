@@ -53,12 +53,20 @@ jobs:
         id: check_tailscale
         run: |
           LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
-          if [[ "$LAST_COMMIT_AUTHOR" == "GitHub Action: auto update tailscale" && "$CHANGED_FILES" == *"Dockerfile"* ]]; then
+          DOCKERFILE_DIFF=$(git diff HEAD^ HEAD -- Dockerfile | grep '^[+-]ARG TSVERSION=')
+          if [[ "$LAST_COMMIT_AUTHOR" == "GitHub Action: auto update tailscale" && -n "$DOCKERFILE_DIFF" ]]; then
             echo "TAILSCALE_UPDATED=true" >> $GITHUB_OUTPUT
+            NEW_VERSION=$(echo "$DOCKERFILE_DIFF" | grep '^+ARG TSVERSION=' | cut -d'=' -f2)
+            echo "NEW_TAILSCALE_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
           else
             echo "TAILSCALE_UPDATED=false" >> $GITHUB_OUTPUT
           fi
+
+      - name: Notify Tailscale update
+        if: steps.check_tailscale.outputs.TAILSCALE_UPDATED == 'true'
+        run: |
+          echo "Tailscale version was updated in this deployment."
+          echo "New Tailscale version: ${{ steps.check_tailscale.outputs.NEW_TAILSCALE_VERSION }}"
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
       
