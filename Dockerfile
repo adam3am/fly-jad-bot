@@ -14,7 +14,7 @@ FROM adam3am/jad-bot:latest as final
 ARG TAILSCALE_AUTH_KEY
 ENV TAILSCALE_AUTH_KEY=$TAILSCALE_AUTH_KEY
 
-# Install Tailscale dependencies
+# Install packages and set timezone
 RUN apk update && \
     apk add --no-cache \
     ca-certificates \
@@ -26,10 +26,12 @@ RUN apk update && \
     python3 \
     dnsmasq \
     tzdata && \
+    cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
+    echo "Asia/Jakarta" > /etc/timezone && \
     rm -rf /var/cache/apk/*
 
-# Set timezone
-RUN cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+# Set timezone environment variable
+ENV TZ=Asia/Jakarta
 
 # Create necessary directories
 RUN mkdir -p \
