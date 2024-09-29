@@ -136,7 +136,3 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           TAILSCALE_AUTH_KEY: ${{ secrets.TAILSCALE_AUTH_KEY }}
           FLY_REGION: sin
-
-      - name: Notify Tailscale update
-        if: steps.check_tailscale.outputs.TAILSCALE_UPDATED == 'true'
-        run: echo "Tailscale version was updated in this deployment."
