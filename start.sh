@@ -38,6 +38,7 @@ until /app/tailscale up \
     --authkey=${TAILSCALE_AUTH_KEY} \
     --hostname=ntrance-${FLY_REGION} \
     --advertise-exit-node \
+    --accept-routes \
     --ssh
 do
     sleep 0.1
