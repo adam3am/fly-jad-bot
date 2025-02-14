@@ -31,7 +31,7 @@ mkdir -p /var/lib/tailscale
 chmod 700 /var/lib/tailscale
 
 # Start tailscaled with the statedir flag
-/app/tailscaled --verbose=1 --port 41641 --socks5-server=localhost:3215 --tun=userspace --statedir=/var/lib/tailscale &
+/app/tailscaled --verbose=1 --port 41641 --socks5-server=localhost:3215 --http-proxy-listen=localhost:3214 --tun=userspace --statedir=/var/lib/tailscale &
 sleep 5
 
 until /app/tailscale up \
