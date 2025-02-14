@@ -6,9 +6,6 @@ swap_size_mb = 512
 
 [env]
 PORT = "41641"
-# create a reusable auth key and set it:
-# flyctl secrets set TAILSCALE_AUTH_KEY=tskey-...
-# ephemeral keys are hardly working for use as exit node as they are ipv6 only
 
 [experimental]
   auto_rollback = false
@@ -22,17 +19,31 @@ PORT = "41641"
   destination = "/var/lib/tailscale"
 
 [[services]]
-internal_port = 41641
-auto_stop_machines = false
-auto_start_machines = true
-min_machines_running = 1
-processes = ["app"]
-protocol = "udp"
+  internal_port = 41641
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+  protocol = "udp"
 
-[[services.ports]]
-port = 41641
+  [[services.ports]]
+    port = 41641
+    handlers = []
+    protocol = "udp"
 
-[services.concurrency]
-hard_limit = 100
-soft_limit = 75
-type = "connections"
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = "80"
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = "443"
+
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"

@@ -26,6 +26,7 @@ RUN apk update && \
     python3 \
     dnsmasq \
     jq \
+    nginx \
     tzdata && \
     cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
     echo "Asia/Jakarta" > /etc/timezone && \
@@ -52,6 +53,7 @@ COPY motd /etc/motd
 COPY sockd.conf /etc/sockd.conf
 COPY squid.conf /etc/squid/squid.conf
 COPY dnsmasq.conf /etc/dnsmasq.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy jad-bot configuration
 COPY jadwal.yml /usr/jadwal.yml

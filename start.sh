@@ -59,8 +59,16 @@ mv /tmp/dummy_hallpass /.fly/hallpass
 
 echo 'Replaced /.fly/hallpass with dummy program'
 
-# Wait for the jad-bot to finish
+# Start Nginx
+echo 'Starting Nginx...'
+nginx -g 'daemon off;' &
+NGINX_PID=$!
+
+echo 'Nginx started'
+
+# Wait for processes to finish
 wait $JAD_BOT_PID
+wait $NGINX_PID
 
 # Keep the container running
 tail -f /dev/null
