@@ -50,45 +50,28 @@ RUN wget https://www.internic.net/domain/named.root -O /etc/unbound/var/root.hin
 unbound-anchor -a "/etc/unbound/var/root.key" || true && \
 chown -R unbound:unbound /etc/unbound/var
 
-RUN cat > /etc/unbound/unbound.conf << 'EOF'
-server:
-    # Listen on Tailscale interface only (will be updated at startup)
-    interface: 0.0.0.0
-    port: 53
-    do-ip4: yes
-    do-ip6: no
-    do-udp: yes
-    do-tcp: yes
-
-    # Access control (will be updated at startup)
-    access-control: 0.0.0.0/0 allow
-
-    # Privacy settings
-    hide-identity: yes
-    hide-version: yes
-    qname-minimisation: yes
-    
-    # DNSSEC
-    auto-trust-anchor-file: "/etc/unbound/var/root.key"
-    root-hints: "/etc/unbound/var/root.hints"
-    
-    # Performance
-    num-threads: 1
-    msg-cache-slabs: 2
-    rrset-cache-slabs: 2
-    infra-cache-slabs: 2
-    key-cache-slabs: 2
-    
-    # Memory usage for Alpine on small VPS
-    rrset-cache-size: 8m
-    msg-cache-size: 4m
-    
-    # Prefetch to improve performance
-    prefetch: yes
-    
-    # No forwarding - fully recursive
-    do-not-query-localhost: no
-EOF
+RUN echo 'server:\n\
+    interface: 0.0.0.0\n\
+    port: 53\n\
+    do-ip4: yes\n\
+    do-ip6: no\n\
+    do-udp: yes\n\
+    do-tcp: yes\n\
+    access-control: 0.0.0.0/0 allow\n\
+    hide-identity: yes\n\
+    hide-version: yes\n\
+    qname-minimisation: yes\n\
+    auto-trust-anchor-file: "/etc/unbound/var/root.key"\n\
+    root-hints: "/etc/unbound/var/root.hints"\n\
+    num-threads: 1\n\
+    msg-cache-slabs: 2\n\
+    rrset-cache-slabs: 2\n\
+    infra-cache-slabs: 2\n\
+    key-cache-slabs: 2\n\
+    rrset-cache-size: 8m\n\
+    msg-cache-size: 4m\n\
+    prefetch: yes\n\
+    do-not-query-localhost: no' > /etc/unbound/unbound.conf
 
 # Copy Tailscale files from build stage
 COPY --from=tailscale-build /app/tailscaled /app/tailscaled
