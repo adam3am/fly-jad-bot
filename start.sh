@@ -45,22 +45,27 @@ do
     sleep 0.1
 done
 
-echo 'Tailscale started'
+echo "Waiting for Tailscale IP..."
+while true; do
+    TS_IP=$(/app/tailscale ip -4)
+    if echo "$TS_IP" | grep -q '^100\.'; then
+        echo "Tailscale IP is ready: $TS_IP"
+        break
+    fi
+    sleep 0.5
+done
 
-# Start Unbound
 echo "Starting Unbound..."
-
-# Optional: Validate config
 unbound-checkconf /etc/unbound/unbound.conf || {
     echo "Unbound config check failed"
     exit 1
 }
 
 /usr/sbin/unbound -d > /var/log/unbound.log 2>&1 &
-
 UNBOUND_PID=$!
 
 echo "Unbound started with PID $UNBOUND_PID"
+
 
 # Add iptables rules for DNS
 iptables -I ts-input -p udp --dport 53 -j ACCEPT
