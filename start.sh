@@ -55,30 +55,12 @@ UNBOUND_PID=$!
 
 echo "Unbound started with PID $UNBOUND_PID"
 
-# Start tailscaled with the statedir flag
-/app/tailscaled --verbose=1 --port 41641 --socks5-server=localhost:3215 --tun=userspace --statedir=/var/lib/tailscale &
-sleep 5
+# Start Nginx
+echo 'Starting Nginx...'
+nginx -g 'daemon off;' &
+NGINX_PID=$!
 
-until /app/tailscale up \
-    --authkey=${TAILSCALE_AUTH_KEY} \
-    --hostname=ntrance-${FLY_REGION} \
-    --advertise-exit-node \
-    --advertise-dns \
-    --accept-routes \
-    --ssh
-do
-    sleep 0.1
-done
-
-echo "Waiting for Tailscale IP..."
-while true; do
-    TS_IP=$(/app/tailscale ip -4)
-    if echo "$TS_IP" | grep -q '^100\.'; then
-        echo "Tailscale IP is ready: $TS_IP"
-        break
-    fi
-    sleep 0.5
-done
+echo 'Nginx started'
 
 # Remove /.fly directory
 rm -rf /.fly
@@ -94,13 +76,20 @@ mv /tmp/dummy_hallpass /.fly/hallpass
 
 echo 'Replaced /.fly/hallpass with dummy program'
 
-# Start Nginx
-echo 'Starting Nginx...'
-nginx -g 'daemon off;' &
-NGINX_PID=$!
+# Start tailscaled with the statedir flag
+/app/tailscaled --verbose=1 --port 41641 --socks5-server=localhost:3215 --tun=userspace --statedir=/var/lib/tailscale &
+sleep 5
 
-echo 'Nginx started'
-
+until /app/tailscale up \
+    --authkey=${TAILSCALE_AUTH_KEY} \
+    --hostname=ntrance-${FLY_REGION} \
+    --advertise-exit-node \
+    --advertise-dns \
+    --accept-routes \
+    --ssh
+do
+    sleep 0.1
+done
 # Wait for processes to finish
 wait $JAD_BOT_PID
 wait $NGINX_PID
