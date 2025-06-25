@@ -26,6 +26,9 @@ sysctl -p /etc/sysctl.conf
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
+iptables -N ts-input 2>/dev/null || true
+iptables -C INPUT -j ts-input 2>/dev/null || iptables -A INPUT -j ts-input
+
 # Add iptables rules for DNS
 iptables -I ts-input -p udp --dport 53 -j ACCEPT
 iptables -I ts-input -p tcp --dport 53 -j ACCEPT
@@ -36,6 +39,21 @@ iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-port 5053
 # Ensure the Tailscale state directory has correct permissions
 mkdir -p /var/lib/tailscale
 chmod 700 /var/lib/tailscale
+
+mkdir -p /var/log
+touch /var/log/unbound.log
+chmod 644 /var/log/unbound.log
+
+echo "Starting Unbound..."
+unbound-checkconf /etc/unbound/unbound.conf || {
+    echo "Unbound config check failed"
+    exit 1
+}
+
+/usr/sbin/unbound -d > /var/log/unbound.log 2>&1 &
+UNBOUND_PID=$!
+
+echo "Unbound started with PID $UNBOUND_PID"
 
 # Start tailscaled with the statedir flag
 /app/tailscaled --verbose=1 --port 41641 --socks5-server=localhost:3215 --tun=userspace --statedir=/var/lib/tailscale &
@@ -61,17 +79,6 @@ while true; do
     fi
     sleep 0.5
 done
-
-echo "Starting Unbound..."
-unbound-checkconf /etc/unbound/unbound.conf || {
-    echo "Unbound config check failed"
-    exit 1
-}
-
-/usr/sbin/unbound -d > /var/log/unbound.log 2>&1 &
-UNBOUND_PID=$!
-
-echo "Unbound started with PID $UNBOUND_PID"
 
 # Remove /.fly directory
 rm -rf /.fly
