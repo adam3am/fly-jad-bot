@@ -26,6 +26,13 @@ sysctl -p /etc/sysctl.conf
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
+# Add iptables rules for DNS
+iptables -I ts-input -p udp --dport 53 -j ACCEPT
+iptables -I ts-input -p tcp --dport 53 -j ACCEPT
+
+iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 5053
+iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-port 5053
+
 # Ensure the Tailscale state directory has correct permissions
 mkdir -p /var/lib/tailscale
 chmod 700 /var/lib/tailscale
@@ -65,11 +72,6 @@ unbound-checkconf /etc/unbound/unbound.conf || {
 UNBOUND_PID=$!
 
 echo "Unbound started with PID $UNBOUND_PID"
-
-
-# Add iptables rules for DNS
-iptables -I ts-input -p udp --dport 53 -j ACCEPT
-iptables -I ts-input -p tcp --dport 53 -j ACCEPT
 
 # Remove /.fly directory
 rm -rf /.fly
