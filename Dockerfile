@@ -50,29 +50,6 @@ RUN wget https://www.internic.net/domain/named.root -O /etc/unbound/var/root.hin
 unbound-anchor -a "/etc/unbound/var/root.key" || true && \
 chown -R unbound:unbound /etc/unbound/var
 
-RUN echo 'server:\n\
-    interface: 0.0.0.0\n\
-    port: 53\n\
-    do-ip4: yes\n\
-    do-ip6: no\n\
-    do-udp: yes\n\
-    do-tcp: yes\n\
-    access-control: 0.0.0.0/0 allow\n\
-    hide-identity: yes\n\
-    hide-version: yes\n\
-    qname-minimisation: yes\n\
-    auto-trust-anchor-file: "/etc/unbound/var/root.key"\n\
-    root-hints: "/etc/unbound/var/root.hints"\n\
-    num-threads: 1\n\
-    msg-cache-slabs: 2\n\
-    rrset-cache-slabs: 2\n\
-    infra-cache-slabs: 2\n\
-    key-cache-slabs: 2\n\
-    rrset-cache-size: 8m\n\
-    msg-cache-size: 4m\n\
-    prefetch: yes\n\
-    do-not-query-localhost: no' > /etc/unbound/unbound.conf
-
 # Copy Tailscale files from build stage
 COPY --from=tailscale-build /app/tailscaled /app/tailscaled
 COPY --from=tailscale-build /app/tailscale /app/tailscale
@@ -84,6 +61,7 @@ COPY sockd.conf /etc/sockd.conf
 COPY squid.conf /etc/squid/squid.conf
 COPY dnsmasq.conf /etc/dnsmasq.conf
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY unbound.conf /etc/unbound/unbound.conf
 
 # Copy jad-bot configuration
 COPY jadwal.yml /usr/jadwal.yml
