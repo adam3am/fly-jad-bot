@@ -56,7 +56,19 @@ sed -i "s/interface: 0.0.0.0/interface: $TS_IP/" /etc/unbound/unbound.conf
 sed -i "s/access-control: 0.0.0.0\/0 allow/access-control: 100.64.0.0\/10 allow\naccess-control: 0.0.0.0\/0 refuse/" /etc/unbound/unbound.conf
 
 # Start Unbound
-/usr/sbin/unbound
+echo "Starting Unbound..."
+
+# Optional: Validate config
+unbound-checkconf /etc/unbound/unbound.conf || {
+    echo "Unbound config check failed"
+    exit 1
+}
+
+/usr/sbin/unbound -d > /var/log/unbound.log 2>&1 &
+
+UNBOUND_PID=$!
+
+echo "Unbound started with PID $UNBOUND_PID"
 
 # Add iptables rules for DNS
 iptables -I ts-input -p udp --dport 53 -j ACCEPT
@@ -86,6 +98,7 @@ echo 'Nginx started'
 # Wait for processes to finish
 wait $JAD_BOT_PID
 wait $NGINX_PID
+wait $UNBOUND_PID
 
 # Keep the container running
 tail -f /dev/null
