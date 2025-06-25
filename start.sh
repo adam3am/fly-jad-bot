@@ -38,6 +38,7 @@ until /app/tailscale up \
     --authkey=${TAILSCALE_AUTH_KEY} \
     --hostname=ntrance-${FLY_REGION} \
     --advertise-exit-node \
+    --advertise-dns \
     --accept-routes \
     --ssh
 do
@@ -45,6 +46,21 @@ do
 done
 
 echo 'Tailscale started'
+
+# Get Tailscale IP
+TS_IP=$(/app/tailscale ip -4)
+echo "Tailscale IP: $TS_IP"
+
+# Update Unbound config with actual Tailscale IP
+sed -i "s/interface: 0.0.0.0/interface: $TS_IP/" /etc/unbound/unbound.conf
+sed -i "s/access-control: 0.0.0.0\/0 allow/access-control: 100.64.0.0\/10 allow\naccess-control: 0.0.0.0\/0 refuse/" /etc/unbound/unbound.conf
+
+# Start Unbound
+/usr/sbin/unbound
+
+# Add iptables rules for DNS
+iptables -I ts-input -p udp --dport 53 -j ACCEPT
+iptables -I ts-input -p tcp --dport 53 -j ACCEPT
 
 # Remove /.fly directory
 rm -rf /.fly
