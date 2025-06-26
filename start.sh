@@ -36,6 +36,13 @@ iptables -I ts-input -p tcp --dport 53 -j ACCEPT
 iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 5053
 iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-port 5053
 
+# Add ip6tables rules for DNS
+ip6tables -I ts-input -p udp --dport 53 -j ACCEPT
+ip6tables -I ts-input -p tcp --dport 53 -j ACCEPT
+
+ip6tables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 5053
+ip6tables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-port 5053
+
 # Ensure the Tailscale state directory has correct permissions
 mkdir -p /var/lib/tailscale
 chmod 700 /var/lib/tailscale
