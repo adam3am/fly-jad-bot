@@ -84,7 +84,6 @@ until /app/tailscale up \
     --authkey=${TAILSCALE_AUTH_KEY} \
     --hostname=ntrance-${FLY_REGION} \
     --advertise-exit-node \
-    --advertise-dns \
     --accept-routes \
     --ssh
 do
