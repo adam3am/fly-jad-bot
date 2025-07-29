@@ -11,28 +11,6 @@ probes:
     requests:
       - url: https://${url}
         body:
-          appointment_date: "2025-07-29"
-          fungsi: ${fungsi}
-          key: ${key}
-          poli_id: ${poli_id}
-          user_nm: ${user_nm}
-        timeout: 200000
-        method: POST
-    incidentThreshold: 8
-    recoveryThreshold: 1
-    alerts:
-      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
-        message: |
-          *selasa 29 juli*
-          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
-          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
-          {{/each}}
-  - id: jadwal-2
-    name: jadwal-kedua
-    interval: 18
-    requests:
-      - url: https://${url}
-        body:
           appointment_date: "2025-07-30"
           fungsi: ${fungsi}
           key: ${key}
@@ -49,8 +27,8 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-3
-    name: jadwal-ketiga
+  - id: jadwal-2
+    name: jadwal-kedua
     interval: 18
     requests:
       - url: https://${url}
@@ -71,8 +49,8 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-4
-    name: jadwal-keempat
+  - id: jadwal-3
+    name: jadwal-ketiga
     interval: 18
     requests:
       - url: https://${url}
@@ -93,8 +71,8 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-5
-    name: jadwal-kelima
+  - id: jadwal-4
+    name: jadwal-keempat
     interval: 18
     requests:
       - url: https://${url}
@@ -115,8 +93,8 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-6
-    name: jadwal-keenam
+  - id: jadwal-5
+    name: jadwal-kelima
     interval: 18
     requests:
       - url: https://${url}
@@ -137,8 +115,8 @@ probes:
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
-  - id: jadwal-7
-    name: jadwal-ketujuh
+  - id: jadwal-6
+    name: jadwal-keenam
     interval: 18
     requests:
       - url: https://${url}
@@ -156,6 +134,28 @@ probes:
       - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
         message: |
           *selasa 12 agustus*
+          {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
+          {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
+          {{/each}}
+  - id: jadwal-7
+    name: jadwal-ketujuh
+    interval: 18
+    requests:
+      - url: https://${url}
+        body:
+          appointment_date: "2025-08-13"
+          fungsi: ${fungsi}
+          key: ${key}
+          poli_id: ${poli_id}
+          user_nm: ${user_nm}
+        timeout: 200000
+        method: POST
+    incidentThreshold: 8
+    recoveryThreshold: 1
+    alerts:
+      - assertion: response.status == 200 and response.headers['content-type'] == "text/html" and startsWith(response.body.status, "200") and response.body.pesan == "OK"
+        message: |
+          *rabu 13 agustus*
           {{#if response.body.pesan}}{{response.body.pesan}}{{else}}${else}{{/if}}
           {{#each response.body.data}}`${time}{{consultationDay.start}}${quota}{{consultationDay.quota}}`
           {{/each}}
