@@ -9,7 +9,7 @@
 # 30 GB free Asia-Pacific outbound allowance.
 # ============================================================
 
-IFACE="tailscale0"
+IFACE="userspace"
 LIMIT=28000000000
 TOTAL_FILE="/var/lib/tailscale/bw_total_bytes"
 RAW_FILE="/var/lib/tailscale/bw_last_raw"
