@@ -100,7 +100,7 @@ done
 echo 'Tailscale started'
 
 # Start bandwidth kill-switch cron
-crond -b -l 2
+crond -s
 echo 'Bandwidth tracker cron started'
 
 # Wait for processes to finish
