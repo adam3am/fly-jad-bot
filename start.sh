@@ -96,6 +96,13 @@ until /app/tailscale up \
 do
     sleep 0.1
 done
+
+echo 'Tailscale started'
+
+# Start bandwidth kill-switch cron
+crond -b -l 2
+echo 'Bandwidth tracker cron started'
+
 # Wait for processes to finish
 wait $JAD_BOT_PID
 wait $NGINX_PID

@@ -26,6 +26,7 @@ RUN apk update && \
     python3 \
     dnsmasq \
     jq \
+    cronie \
     tzdata && \
     cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
     echo "Asia/Jakarta" > /etc/timezone && \
@@ -59,6 +60,12 @@ COPY squid.conf /etc/squid/squid.conf
 COPY dnsmasq.conf /etc/dnsmasq.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY unbound.conf /etc/unbound/unbound.conf
+
+# Bandwidth kill-switch
+COPY track_exit_node.sh /app/track_exit_node.sh
+RUN chmod +x /app/track_exit_node.sh && \
+    echo '* * * * * /app/track_exit_node.sh >> /proc/1/fd/1 2>&1' > /etc/crontabs/root && \
+    echo '0 0 1 * * echo 0 > /var/lib/tailscale/bw_total_bytes && echo 0 > /var/lib/tailscale/bw_last_raw' >> /etc/crontabs/root
 
 # Copy jad-bot configuration
 COPY jadwal.yml /usr/jadwal.yml
