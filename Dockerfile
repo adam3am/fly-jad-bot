@@ -27,6 +27,9 @@ RUN apk update && \
     dnsmasq \
     jq \
     cronie \
+    nginx \
+    unbound \
+    bind-tools \
     tzdata && \
     cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
     echo "Asia/Jakarta" > /etc/timezone && \
