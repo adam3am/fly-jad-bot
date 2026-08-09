@@ -13,8 +13,25 @@ IFACE="userspace"
 LIMIT=28000000000
 TOTAL_FILE="/var/lib/tailscale/bw_total_bytes"
 RAW_FILE="/var/lib/tailscale/bw_last_raw"
+RESET_MARKER="/var/lib/tailscale/bw_reset_marker"
 TAILSCALE="/app/tailscale"
 TAG="BW_TRACK"
+
+# -----------------------------------------------------------
+# Monthly auto-reset (1st of each month)
+# -----------------------------------------------------------
+CURRENT_MONTH=$(date +%Y-%m)
+LAST_RESET=""
+if [ -f "$RESET_MARKER" ]; then
+    LAST_RESET=$(cat "$RESET_MARKER")
+fi
+
+if [ "$CURRENT_MONTH" != "$LAST_RESET" ]; then
+    echo "[$TAG] MONTHLY RESET — new billing cycle: $CURRENT_MONTH"
+    echo 0 > "$TOTAL_FILE"
+    echo 0 > "$RAW_FILE"
+    echo "$CURRENT_MONTH" > "$RESET_MARKER"
+fi
 
 # -----------------------------------------------------------
 # Read current TX bytes from the kernel counter
