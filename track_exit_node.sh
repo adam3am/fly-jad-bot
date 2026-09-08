@@ -17,6 +17,8 @@ RESET_MARKER="/var/lib/tailscale/bw_reset_marker"
 TAILSCALE="/app/tailscale"
 TAG="BW_TRACK"
 
+TX_PATH="/sys/class/net/${IFACE}/statistics/tx_bytes"
+
 # -----------------------------------------------------------
 # Monthly auto-reset (1st of each month)
 # -----------------------------------------------------------
@@ -29,14 +31,22 @@ fi
 if [ "$CURRENT_MONTH" != "$LAST_RESET" ]; then
     echo "[$TAG] MONTHLY RESET — new billing cycle: $CURRENT_MONTH"
     echo 0 > "$TOTAL_FILE"
-    echo 0 > "$RAW_FILE"
+    # Seed RAW_FILE with current kernel counter so the first delta of the new month is 0
+    if [ -f "$TX_PATH" ]; then
+        cat "$TX_PATH" > "$RAW_FILE"
+    else
+        echo 0 > "$RAW_FILE"
+    fi
     echo "$CURRENT_MONTH" > "$RESET_MARKER"
+
+    # Re-enable exit node in case it was disabled in the previous billing cycle
+    $TAILSCALE set --advertise-exit-node=true 2>/dev/null || $TAILSCALE up --advertise-exit-node=true 2>/dev/null || true
+    echo "[$TAG] Exit node re-enabled for new billing cycle"
 fi
 
 # -----------------------------------------------------------
 # Read current TX bytes from the kernel counter
 # -----------------------------------------------------------
-TX_PATH="/sys/class/net/${IFACE}/statistics/tx_bytes"
 
 if [ ! -f "$TX_PATH" ]; then
     echo "[$TAG] WARNING: $TX_PATH not found — interface not up yet"
@@ -93,6 +103,6 @@ echo "[$TAG] delta=${DELTA} total=${TOTAL} (${TOTAL_MB}MB / ${LIMIT_MB}MB)"
 if [ "$TOTAL" -ge "$LIMIT" ]; then
     echo "[$TAG] *** LIMIT REACHED (${TOTAL_MB}MB >= ${LIMIT_MB}MB) ***"
     echo "[$TAG] Disabling exit node..."
-    $TAILSCALE up --advertise-exit-node=false
+    $TAILSCALE set --advertise-exit-node=false 2>/dev/null || $TAILSCALE up --advertise-exit-node=false
     echo "[$TAG] Exit node DISABLED. Will re-enable on monthly reset or redeploy."
 fi
